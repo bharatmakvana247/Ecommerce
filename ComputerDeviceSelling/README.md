@@ -1,2 +1,0 @@
-# ComputerDeviceSelling
-Ecommerce Project 
