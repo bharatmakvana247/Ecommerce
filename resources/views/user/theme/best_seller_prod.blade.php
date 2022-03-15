@@ -1,8 +1,7 @@
 <div id="best-seller" class="tab-pane" role="tabpanel">
     <div class="row">
         @foreach ($best_sellerproducts as $product)
-            {{ $product['checkout_list'] }}
-            {{-- <div class="col-lg-3 col-md-4">
+            <div class="col-lg-3 col-md-4">
                 <div class="product-item product-item-2">
                     <div class="product-img">
                         <a href="single-product.html">
@@ -11,6 +10,8 @@
                     </div>
                     <div class="product-info">
                         <h6 class="product-title">
+                            {{ $product['checkout_list'] }}
+
                             <a href="single-product.html">{{ $product->checkout_list[$key]->product_list }}</a>
                         </h6>
                         <h6 class="brand-name"></h6>
@@ -32,7 +33,7 @@
                         </li>
                     </ul>
                 </div>
-            </div> --}}
+            </div>
         @endforeach
 
     </div>
