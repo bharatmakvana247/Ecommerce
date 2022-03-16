@@ -1,8 +1,7 @@
-@extends('user.layouts.app')
-@section('title')
+<?php $__env->startSection('title'); ?>
     Product Page
-@endsection
-@section('mainContent')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('mainContent'); ?>
     <div class="wrapper">
         <div id="page-content" class="page-wrapper section">
             <div class="shop-section mb-80">
@@ -23,46 +22,47 @@
                                         </li>
                                     </ul>
                                     <!-- short-by -->
-                                    @if (sizeof($categories) > 0)
+                                    <?php if(sizeof($categories) > 0): ?>
                                         <div class="short-by f-left text-center">
                                             <span>Sort by :</span>
 
                                             <select id="category_list">
-                                                @foreach ($categories as $categories_list)
-                                                    <option value="{{ $categories_list->id }}">
-                                                        {{ $categories_list->category_name }}</option>
-                                                @endforeach
+                                                <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $categories_list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($categories_list->id); ?>">
+                                                        <?php echo e($categories_list->category_name); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                         </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <!-- showing -->
                                     <div class="showing f-right text-right record">
-                                        Total Showing : {{ $count_records }}
-                                        {{-- <span>Showing : 01-09 of 17.</span> --}}
+                                        Total Showing : <?php echo e($count_records); ?>
+
+                                        
                                     </div>
                                 </div>
                                 <!-- shop-option end -->
                                 <!-- Tab Content start -->
                                 <div class="tab-content">
                                     <!-- grid-view -->
-                                    @if (sizeof($products))
+                                    <?php if(sizeof($products)): ?>
                                         <div id="grid-view" class="tab-pane active show" role="tabpanel">
                                             <div class="row bidst">
-                                                @foreach ($products as $product)
+                                                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="col-lg-4 col-md-6">
                                                         <div class="product-item">
                                                             <div class="product-img">
                                                                 <a
-                                                                    href="{{ route('userside.single_product', $product->id) }}">
-                                                                    <img src="{{ url('uploads/' . $product->product_image) }}"
-                                                                        alt="{{ $product->product_image }}"
+                                                                    href="<?php echo e(route('userside.single_product', $product->id)); ?>">
+                                                                    <img src="<?php echo e(url('uploads/' . $product->product_image)); ?>"
+                                                                        alt="<?php echo e($product->product_image); ?>"
                                                                         style="max-height: 262px;">
                                                                 </a>
                                                             </div>
                                                             <div class="product-info">
                                                                 <h6 class="product-title">
                                                                     <a
-                                                                        href="{{ route('userside.single_product', $product->id) }}">{{ $product->product_name }}</a>
+                                                                        href="<?php echo e(route('userside.single_product', $product->id)); ?>"><?php echo e($product->product_name); ?></a>
                                                                 </h6>
 
                                                                 <div class="rating" id="ratting">
@@ -100,64 +100,64 @@
                                                                         title="Sucks big time - 0.5 stars"></label>
                                                                 </div>
                                                                 <br>
-                                                                <h3 class="pro-price">${!! number_format((float) $product->product_price, 2) !!}</h3>
+                                                                <h3 class="pro-price">$<?php echo number_format((float) $product->product_price, 2); ?></h3>
                                                                 <ul class="action-button">
-                                                                    @php
+                                                                    <?php
                                                                         $wishlist = App\Models\Wishlist::where('product_id', $product->id)->get();
-                                                                    @endphp
-                                                                    @auth
-                                                                        @if (sizeof($wishlist))
+                                                                    ?>
+                                                                    <?php if(auth()->guard()->check()): ?>
+                                                                        <?php if(sizeof($wishlist)): ?>
                                                                             <li
                                                                                 style="background: #FF7F00; border-color: #FF7F00; color: #fff; border-radius: 50%;">
                                                                                 <a href="javascript:void(0)" title="Wishlist"
                                                                                     class="wishlist_add"
-                                                                                    data-id="{{ $product->id }}"
+                                                                                    data-id="<?php echo e($product->id); ?>"
                                                                                     style="background: transparent;border: 1px solid #ddd;border-radius: 50%;color: #FFF;display: block;font-size: 14px;height: 30px;text-align: center;width: 30px;"><i
                                                                                         class="zmdi zmdi-favorite"></i></a>
                                                                             </li>
-                                                                        @else
+                                                                        <?php else: ?>
                                                                             <li>
                                                                                 <a href="javascript:void(0)" title="Wishlist"
-                                                                                    data-id="{{ $product->id }}"
+                                                                                    data-id="<?php echo e($product->id); ?>"
                                                                                     class="wishlist_add"><i
                                                                                         class="zmdi zmdi-favorite"></i></a>
                                                                             </li>
-                                                                        @endif
-                                                                    @else
+                                                                        <?php endif; ?>
+                                                                    <?php else: ?>
                                                                         <li>
                                                                             <a href="javascript:void(0)" data-toggle="modal"
                                                                                 data-target=".loginModal" title="Quickview"><i
                                                                                     class="zmdi zmdi-favorite"></i></a>
                                                                         </li>
-                                                                    @endauth
+                                                                    <?php endif; ?>
 
                                                                     <li>
                                                                         <a href="javascript:void(0)" class="ShowProduct"
                                                                             title="Quickview"
-                                                                            data-id="{{ $product->id }}"><i
+                                                                            data-id="<?php echo e($product->id); ?>"><i
                                                                                 class="zmdi zmdi-zoom-in"></i></a>
                                                                     </li>
-                                                                    @auth
+                                                                    <?php if(auth()->guard()->check()): ?>
                                                                         <li>
                                                                             <a href="javascript:void(0)" title="Add to cart"
                                                                                 class="cart_add"
-                                                                                data-id="{{ $product->id }}"><i
+                                                                                data-id="<?php echo e($product->id); ?>"><i
                                                                                     class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                                         </li>
-                                                                    @else
+                                                                    <?php else: ?>
                                                                         <li>
                                                                             <a href="javascript:void(0)" data-toggle="modal"
                                                                                 data-target=".loginModal" title="Quickview"><i
                                                                                     class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                                         </li>
-                                                                    @endauth
+                                                                    <?php endif; ?>
 
                                                                 </ul>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                                 <!-- product-item end -->
                                             </div>
@@ -168,13 +168,13 @@
                                         <!-- list-view -->
                                         <div id="list-view" class="tab-pane" role="tabpanel">
                                             <div class="row">
-                                                @foreach ($products as $product)
+                                                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="col-lg-12">
                                                         <div class="shop-list product-item">
                                                             <div class="product-img">
                                                                 <a
-                                                                    href="{{ route('userside.single_product', $product->id) }}">
-                                                                    <img src="{{ url('uploads/' . $product->product_image) }}"
+                                                                    href="<?php echo e(route('userside.single_product', $product->id)); ?>">
+                                                                    <img src="<?php echo e(url('uploads/' . $product->product_image)); ?>"
                                                                         alt="" style="max-height: 262px;">
                                                                 </a>
                                                             </div>
@@ -182,101 +182,104 @@
                                                                 <div class="clearfix">
                                                                     <h6 class="product-title f-left">
                                                                         <a
-                                                                            href="{{ route('userside.single_product', $product->id) }}">{{ $product->product_name }}
+                                                                            href="<?php echo e(route('userside.single_product', $product->id)); ?>"><?php echo e($product->product_name); ?>
+
                                                                         </a>
                                                                     </h6>
 
                                                                 </div>
                                                                 <h6 class="brand-name mb-30">
-                                                                    {{ $product->brand->brand_name }}
+                                                                    <?php echo e($product->brand->brand_name); ?>
+
                                                                 </h6>
-                                                                <h3 class="pro-price">${!! number_format((float) $product->product_price, 2) !!}</h3>
-                                                                <p>{!! Str::limit($product->product_details, 10) !!}</p>
+                                                                <h3 class="pro-price">$<?php echo number_format((float) $product->product_price, 2); ?></h3>
+                                                                <p><?php echo Str::limit($product->product_details, 10); ?></p>
                                                                 <ul class="action-button">
-                                                                    @php
+                                                                    <?php
                                                                         $wishlist = App\Models\Wishlist::where('product_id', $product->id)->get();
-                                                                    @endphp
-                                                                    @auth
-                                                                        @if (sizeof($wishlist))
+                                                                    ?>
+                                                                    <?php if(auth()->guard()->check()): ?>
+                                                                        <?php if(sizeof($wishlist)): ?>
                                                                             <li
                                                                                 style="background: #FF7F00; border-color: #FF7F00; color: #fff; border-radius: 50%;">
                                                                                 <a href="javascript:void(0)" title="Wishlist"
                                                                                     class="wishlist_add"
-                                                                                    data-id="{{ $product->id }}"
+                                                                                    data-id="<?php echo e($product->id); ?>"
                                                                                     style="background: transparent;border: 1px solid #ddd;border-radius: 50%;color: #FFF;display: block;font-size: 14px;height: 30px;text-align: center;width: 30px;"><i
                                                                                         class="zmdi zmdi-favorite"></i></a>
                                                                             </li>
-                                                                        @else
+                                                                        <?php else: ?>
                                                                             <li>
                                                                                 <a href="javascript:void(0)" title="Wishlist"
-                                                                                    data-id="{{ $product->id }}"
+                                                                                    data-id="<?php echo e($product->id); ?>"
                                                                                     class="wishlist_add"><i
                                                                                         class="zmdi zmdi-favorite"></i></a>
                                                                             </li>
-                                                                        @endif
-                                                                    @else
+                                                                        <?php endif; ?>
+                                                                    <?php else: ?>
                                                                         <li>
                                                                             <a href="javascript:void(0)" data-toggle="modal"
                                                                                 data-target=".loginModal" title="Quickview"><i
                                                                                     class="zmdi zmdi-favorite"></i></a>
                                                                         </li>
-                                                                    @endauth
+                                                                    <?php endif; ?>
 
                                                                     <li>
                                                                         <a href="javascript:void(0)" class="ShowProduct"
                                                                             title="Quickview"
-                                                                            data-id="{{ $product->id }}"><i
+                                                                            data-id="<?php echo e($product->id); ?>"><i
                                                                                 class="zmdi zmdi-zoom-in"></i></a>
                                                                     </li>
-                                                                    @auth
+                                                                    <?php if(auth()->guard()->check()): ?>
                                                                         <li>
                                                                             <a href="javascript:void(0)" title="Add to cart"
                                                                                 class="cart_add"
-                                                                                data-id="{{ $product->id }}"><i
+                                                                                data-id="<?php echo e($product->id); ?>"><i
                                                                                     class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                                         </li>
-                                                                    @else
+                                                                    <?php else: ?>
                                                                         <li>
                                                                             <a href="javascript:void(0)" data-toggle="modal"
                                                                                 data-target=".loginModal" title="Quickview"><i
                                                                                     class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                                         </li>
-                                                                    @endauth
+                                                                    <?php endif; ?>
                                                                 </ul>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </div>
                                         </div>
 
 
 
-                                    @else
-                                        <img src="{{ asset('product_Admin/comingsoon.jpg') }}" alt=""
+                                    <?php else: ?>
+                                        <img src="<?php echo e(asset('product_Admin/comingsoon.jpg')); ?>" alt=""
                                             style="height: 500px;width: 500px;margin-left: 197px;margin-bottom: 15px;">
-                                    @endif
+                                    <?php endif; ?>
 
                                 </div>
                                 <!-- Tab Content end -->
                                 <!-- shop-pagination start -->
                                 <ul
                                     class="shop-pagination box-shadow text-center ptblr-10-30 pagination pagination-md justify-content-center">
-                                    {{ $products->links('pagination::bootstrap-4') }}
+                                    <?php echo e($products->links('pagination::bootstrap-4')); ?>
+
                                 </ul>
                                 <!-- shop-pagination end -->
                             </div>
                         </div>
-                        @include('user.theme.fliter')
+                        <?php echo $__env->make('user.theme.fliter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
-@section('styles')
-@endsection
-@section('scripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('styles'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
     <script>
         // var val = $(document).ready(function() {
         //     $("#ratting").click(function() {
@@ -300,7 +303,9 @@
         });
 
     </script>
-    <script src="{{ asset('js/product_category.js') }}"></script>
-    <script src="{{ asset('js/product_range.js') }}"></script>
-    {{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> --}}
-@endsection
+    <script src="<?php echo e(asset('js/product_category.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/product_range.js')); ?>"></script>
+    
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('user.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/BHARAT/Laravel/Ecommerce/resources/views/user/pages/product/product.blade.php ENDPATH**/ ?>

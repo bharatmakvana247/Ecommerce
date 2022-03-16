@@ -21,13 +21,13 @@ class Cart extends Model
         'total',
     ];
 
-    // public function product_list()
-    // {
-    //     return $this->belongsTo(Product::class, 'product_id', 'id');
-    // }
-
     public function product_list()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+
+    // public function product_list()
+    // {
+    //     return ($this->hasMany(Product::class, 'id', 'product_id'));
+    // }
 }

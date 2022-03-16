@@ -22,13 +22,6 @@ class MainController extends Controller
         $most_visited_products = Wishlist::with('product_list')->limit(8)->get();
         $new_arrival_products = Product::with('brand')->orderBy('id', 'DESC')->limit(8)->get();
         $best_sellerproducts = Checkout::with('checkout_list', 'checkout_list.product_list')->limit(8)->get();
-        // foreach ($best_sellerproducts as $key => $val) {
-        //     echo ($val->checkout_list);
-        //     foreach ($val as $key => $item) {
-        //         echo ($item);
-        //     }
-        // }
-        // die();
 
         return view('user.layouts.index', compact('products', 'new_arrival_products', 'most_visited_products', 'best_sellerproducts', 'slider_products'));
     }
